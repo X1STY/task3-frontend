@@ -59,7 +59,7 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onChange }) => {
       </button>
 
       <Button type='submit' color='secondary' variant='bordered' className='self-end'>
-        Sign Up
+        Sign In
       </Button>
     </form>
   );
