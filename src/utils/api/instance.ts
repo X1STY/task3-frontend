@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-export const instance = axios.create({
-  baseURL: 'http://176.109.108.98/'
-});
+export type AxiosRequestConfig<Params = undefined> = Params extends undefined
+  ? { config?: import('axios').AxiosRequestConfig }
+  : { params: Params; config?: import('axios').AxiosRequestConfig };
 
-export default instance;
+export const instance = axios.create({
+  baseURL: 'http://176.109.108.98:8077/',
+  withCredentials: true
+});

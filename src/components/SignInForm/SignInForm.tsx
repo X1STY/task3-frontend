@@ -7,13 +7,14 @@ import { EyeIcon, EyeSlashIcon } from '../icons';
 
 export interface SignInFormProps {
   onChange: () => void;
+  onSubmit: SubmitHandler<SignInFormInputs>;
 }
 
-type SignInFormInputs = {
+export type SignInFormInputs = {
   email: string;
   password: string;
 };
-export const SignInForm: React.FC<SignInFormProps> = ({ onChange }) => {
+export const SignInForm: React.FC<SignInFormProps> = ({ onChange, onSubmit }) => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
@@ -22,12 +23,11 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onChange }) => {
     handleSubmit,
     formState: { errors }
   } = useForm<SignInFormInputs>();
-  const onSubmit: SubmitHandler<SignInFormInputs> = (data) => console.log(data);
 
   return (
     <form
       className='flex w-full flex-col items-center justify-center gap-2 p-4'
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={() => handleSubmit(onSubmit)}
     >
       <h1 className='mb-4 text-2xl font-bold'>Sign In</h1>
 
