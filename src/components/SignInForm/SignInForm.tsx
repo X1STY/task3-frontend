@@ -27,11 +27,13 @@ export const SignInForm: React.FC<SignInFormProps> = ({ onChange, onSubmit }) =>
   return (
     <form
       className='flex w-full flex-col items-center justify-center gap-2 p-4'
-      onSubmit={() => handleSubmit(onSubmit)}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className='mb-4 text-2xl font-bold'>Sign In</h1>
 
       <Input
+        autoFocus
         isInvalid={!!errors.email}
         errorMessage='Please enter a valid email'
         isRequired

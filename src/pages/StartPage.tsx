@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { type SubmitHandler } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import type { AxiosError } from 'axios';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -15,12 +16,15 @@ const StartPage: React.FC<StartPageProps> = () => {
   const [showAuthorizationForm, setShowAuthorizationForm] = React.useState(true);
   const [error, setError] = useState<ErrorDto | undefined>();
   const handleChangeForm = () => setShowAuthorizationForm(!showAuthorizationForm);
+  const navigate = useNavigate();
 
   const signIn: SubmitHandler<SignInFormInputs> = async (params) => {
     setError(undefined);
     await postSignIn({ params })
       .then((response) => {
         localStorage.setItem('accessToken', response.data.accessToken);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        navigate('/drive');
         return response;
       })
       .catch((error: AxiosError<ErrorDto>) => {

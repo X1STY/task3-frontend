@@ -29,10 +29,12 @@ export const SignUpForm: React.FC<SignUpFormProps> = ({ onChange, onSubmit }) =>
   return (
     <form
       className='flex w-full flex-col items-center justify-center gap-2 p-4'
-      onSubmit={() => handleSubmit(onSubmit)}
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      onSubmit={handleSubmit(onSubmit)}
     >
       <h1 className='mb-4 text-2xl font-bold'>Sign Up</h1>
       <Input
+        autoFocus
         isInvalid={!!errors.name}
         errorMessage='Please enter a valid name'
         isRequired

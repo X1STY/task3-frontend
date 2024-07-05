@@ -32,3 +32,41 @@ interface SignInResponseDto {
 interface SignUpResponseDto {
   user: UserDto;
 }
+interface GetFolderRequestDto {
+  id: string;
+}
+interface GetFileRequestDto {
+  id: string;
+}
+interface GetFolderResponseDto {
+  folder: FolderDto;
+  children: (ChildFileDto | ChildFolderDto)[];
+}
+
+interface ChildFolderDto {
+  id: string;
+  name: string;
+  parent_folder_id: string;
+  type: 'folder';
+}
+interface ChildFileDto {
+  id: string;
+  name: string;
+  type: 'file';
+  file_path: string;
+}
+
+interface AddFolderRequestDto {
+  name: string;
+  parent_folder_id: string;
+}
+
+interface AddFolderResponseDto {
+  folder: FolderDto;
+}
+
+interface FolderDto {
+  id: string;
+  name: string;
+  parent_folder_id: string;
+}
