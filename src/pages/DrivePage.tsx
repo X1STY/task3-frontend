@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { AxiosError } from 'axios';
+import { toast, Toaster } from 'sonner';
 
 import { DriveObserver } from '../components/DriveObserver/DriveObserver';
 import { Header } from '../components/layout/Header/Header';
@@ -9,6 +10,8 @@ import { patchFolderId } from '../utils/api/requests/drive/patch/folderId';
 import { postFile } from '../utils/api/requests/drive/post/file';
 import { postFolder } from '../utils/api/requests/drive/post/folder';
 import { useQuery } from '../utils/hook/useQuery';
+import { deleteFolderId } from '../utils/api/requests/drive/delete/folderId';
+import { deleteFileId } from '../utils/api/requests/drive/delete/fileId';
 
 export interface DrivePageProps {}
 
@@ -22,7 +25,12 @@ const DrivePage: React.FC<DrivePageProps> = () => {
       await getFolderId({ params: { id } }).then((res) => setCurrentFolder(res.data));
     }
     getFolder().catch((error: AxiosError<ErrorDto>) => {
-      console.error(error);
+      error.response?.data.message.map((error) =>
+        toast.error(error, {
+          closeButton: true,
+          style: { fontSize: '1rem' }
+        })
+      );
     });
   }, [query]);
 
@@ -76,18 +84,56 @@ const DrivePage: React.FC<DrivePageProps> = () => {
     }
   };
 
+  const handleRenameFolder = async (id: string, name: string) => {
+    const res = await patchFolderId({ params: { id, new_name: name } });
+    if (res.status === 200) {
+      setCurrentFolder((prev) => ({
+        ...prev!,
+        children: prev!.children.map((item) => (item.id === id ? { ...item, name } : item))
+      }));
+    }
+  };
+
+  const handleDeleteFolder = async (id: string) => {
+    const res = await deleteFolderId({ params: { id } });
+    if (res.status === 200) {
+      setCurrentFolder((prev) => ({
+        ...prev!,
+        children: prev!.children.filter((item) => item.id !== id)
+      }));
+    }
+  };
+  const handleDeleteFile = async (id: string) => {
+    const res = await deleteFileId({ params: { id } });
+    if (res.status === 200) {
+      setCurrentFolder((prev) => ({
+        ...prev!,
+        children: prev!.children.filter((item) => item.id !== id)
+      }));
+    }
+  };
+
   return (
-    <div className='flex size-full h-screen flex-col overflow-hidden bg-sky-100'>
-      <Header />
-      <div className='flex h-full flex-row justify-between p-4'>
-        <div className='flex w-2/12 items-start justify-center'>
-          <SideBar handleAddNewFolder={handleAddNewFolder} handleAddNewFile={handleAddNewFile} />
-        </div>
-        <div className='h-[90%] w-10/12 rounded-3xl bg-white p-4'>
-          <DriveObserver folder={currentFolder} handleMoveFolder={handleMoveFolder} />
+    <>
+      <div className='flex size-full h-screen flex-col overflow-hidden bg-sky-100'>
+        <Header />
+        <div className='flex h-full flex-row justify-between p-4'>
+          <div className='flex w-2/12 items-start justify-center'>
+            <SideBar handleAddNewFolder={handleAddNewFolder} handleAddNewFile={handleAddNewFile} />
+          </div>
+          <div className='h-[90%] w-10/12 rounded-3xl bg-white p-4'>
+            <DriveObserver
+              folder={currentFolder}
+              handleMoveFolder={handleMoveFolder}
+              handleRenameFolder={handleRenameFolder}
+              handleDeleteFile={handleDeleteFile}
+              handleDeleteFolder={handleDeleteFolder}
+            />
+          </div>
         </div>
       </div>
-    </div>
+      <Toaster theme='light' richColors />
+    </>
   );
 };
 

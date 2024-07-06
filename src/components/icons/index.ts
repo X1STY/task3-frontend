@@ -5,4 +5,5 @@ export * from './File';
 export * from './Folder';
 export * from './NewFile';
 export * from './NewFolder';
+export * from './Options';
 export * from './Plus';

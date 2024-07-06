@@ -96,3 +96,7 @@ interface PatchFolderRequestDto {
 interface PatchFolderResponseDto {
   folder: FolderDto;
 }
+
+interface DeleteEntityRequestDto {
+  id: string;
+}

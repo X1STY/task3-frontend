@@ -14,6 +14,7 @@ import {
   useDisclosure
 } from '@nextui-org/react';
 import type { AxiosError } from 'axios';
+import { toast } from 'sonner';
 
 import { NewFileIcon, NewFolderIcon, PlusIcon } from '../../icons';
 
@@ -31,7 +32,14 @@ export const SideBar: React.FC<SideBarProps> = ({ handleAddNewFolder, handleAddN
     event.preventDefault();
     const file = event.target.files?.[0];
     if (file) {
-      handleAddNewFile(file).catch((error: AxiosError<ErrorDto>) => console.error(error));
+      handleAddNewFile(file).catch((error: AxiosError<ErrorDto>) => {
+        error.response?.data.message.map((error) => {
+          return toast.error(error, {
+            closeButton: true,
+            style: { fontSize: '1rem' }
+          });
+        });
+      });
     }
   };
 
