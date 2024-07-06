@@ -13,17 +13,28 @@ import {
   ModalHeader,
   useDisclosure
 } from '@nextui-org/react';
+import type { AxiosError } from 'axios';
 
 import { NewFileIcon, NewFolderIcon, PlusIcon } from '../../icons';
 
 export interface SideBarProps {
   handleAddNewFolder: (name: string) => Promise<void>;
+  handleAddNewFile: (file: File) => Promise<void>;
 }
 
-export const SideBar: React.FC<SideBarProps> = ({ handleAddNewFolder }) => {
+export const SideBar: React.FC<SideBarProps> = ({ handleAddNewFolder, handleAddNewFile }) => {
   const ref = useRef<HTMLInputElement>(null);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [name, setName] = useState('');
+
+  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    const file = event.target.files?.[0];
+    if (file) {
+      handleAddNewFile(file).catch((error: AxiosError<ErrorDto>) => console.error(error));
+    }
+  };
+
   return (
     <>
       <div className='flex size-full flex-col items-center justify-start'>
@@ -42,7 +53,12 @@ export const SideBar: React.FC<SideBarProps> = ({ handleAddNewFolder }) => {
               <span className='text-xl'>New folder</span>
             </DropdownItem>
             <DropdownItem
-              onClick={() => ref.current?.click()}
+              onPress={() => {
+                ref.current?.click();
+                ref.current?.addEventListener('change', (event) => {
+                  handleChangeFile(event as unknown as React.ChangeEvent<HTMLInputElement>);
+                });
+              }}
               key='new_file'
               startContent={<NewFileIcon width={40} />}
             >

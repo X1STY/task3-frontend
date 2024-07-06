@@ -4,7 +4,7 @@ import { Button } from '@nextui-org/react';
 import { getFile } from '../../utils/api/requests/drive/get/file';
 import { DownloadIcon, FileIcon, FolderIcon } from '../icons';
 
-type ChildDataType = ChildFileDto | ChildFolderDto;
+export type ChildDataType = ChildFileDto | ChildFolderDto;
 export interface DriveItemProps {
   children: ChildDataType;
 }
@@ -13,10 +13,11 @@ export const DriveItem: React.FC<DriveItemProps> = ({ children }) => {
   const navigate = useNavigate();
   return (
     <div
+      id='drive-item-card'
       onDoubleClick={() => {
         if (children.type === 'folder') navigate(`/drive?folder_id=${children.id}`);
       }}
-      className='relative flex h-72 w-64 flex-col items-center justify-between gap-2 self-center justify-self-center rounded-3xl bg-white p-2 shadow-lg hover:bg-gray-300'
+      className='relative flex h-72 w-64 flex-col items-center gap-2 rounded-3xl bg-white p-2 shadow-lg hover:bg-gray-300'
     >
       <div>
         {children.type === 'file' && <FileIcon width={200} />}

@@ -70,3 +70,29 @@ interface FolderDto {
   name: string;
   parent_folder_id: string;
 }
+interface FileDto {
+  id: string;
+  name: string;
+  file_path: string;
+}
+
+interface RefreshResponseDto {
+  accessToken: string;
+}
+
+interface PostFileRequestDto {
+  file: File;
+  parent_folder_id: string;
+}
+interface PostFileResponseDto {
+  file: FileDto;
+}
+
+interface PatchFolderRequestDto {
+  id: string;
+  new_name?: string;
+  new_parent_folder_id?: string;
+}
+interface PatchFolderResponseDto {
+  folder: FolderDto;
+}
