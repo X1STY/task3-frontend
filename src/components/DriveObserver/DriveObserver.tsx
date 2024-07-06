@@ -43,7 +43,7 @@ export const DriveObserver: React.FC<DriveObserverProps> = ({ folder, handleMove
     e.preventDefault();
     const target = e.target as HTMLDivElement;
     const draggedFolder = JSON.parse(e.dataTransfer.getData('draggedFolder')) as ChildFolderDto;
-    if (draggedFolder.parent_folder_id !== child.id) {
+    if (draggedFolder.parent_folder_id !== child.id && draggedFolder.id !== child.id) {
       handleMoveFolder(draggedFolder.id, child.id);
     }
     if (target.id === 'drive-item-card') {
@@ -62,31 +62,23 @@ export const DriveObserver: React.FC<DriveObserverProps> = ({ folder, handleMove
         <Spinner size='lg' />
       </div>
     );
+  const backFolder = {
+    type: 'folder',
+    id: folder.folder.parent_folder_id,
+    name: '..',
+    parent_folder_id: ''
+  } as ChildFolderDto;
   return (
     <>
       <div className='text-3xl capitalize'>{folder.folder.name}</div>
       <div className='grid h-[95%] w-full auto-cols-auto place-items-center gap-4 overflow-y-auto p-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
         <div
-          onDrop={(e) =>
-            handleDrop(e, {
-              type: 'folder',
-              id: folder.folder.parent_folder_id,
-              name: '..',
-              parent_folder_id: ''
-            })
-          }
+          onDrop={(e) => handleDrop(e, backFolder)}
           onDragOver={handleDragOver}
           onDragEnd={handleDragLeave}
           onDragLeave={handleDragLeave}
         >
-          <DriveItem
-            children={{
-              type: 'folder',
-              id: folder.folder.parent_folder_id,
-              name: '..',
-              parent_folder_id: ''
-            }}
-          />
+          <DriveItem children={backFolder} />
         </div>
 
         {folder?.children.map((child) => (
