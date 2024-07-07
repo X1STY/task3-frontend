@@ -20,7 +20,3 @@ password:
 ~~~
 asasddSs21321#
 ~~~
-
-## Issues
-
-1. Cookie from backend server (with different settings: httpOnly: true/false ... ) for whatever reason cannot set in frontend application, so it can't automatically refresh access token if expired and simply redirect to login page.
