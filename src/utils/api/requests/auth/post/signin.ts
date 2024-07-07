@@ -5,4 +5,7 @@ export type PostSignInParams = SignInDto;
 export type PostSignInConfig = AxiosRequestConfig<PostSignInParams>;
 
 export const postSignIn = async ({ params, config }: PostSignInConfig) =>
-  instance.post<SignInResponseDto>(`auth/signin`, params, config);
+  instance.post<SignInResponseDto>(`auth/signin`, params, {
+    ...config,
+    withCredentials: true
+  });
