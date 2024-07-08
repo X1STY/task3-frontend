@@ -35,23 +35,31 @@ const DrivePage: React.FC<DrivePageProps> = () => {
   }, [query]);
 
   const handleAddNewFolder = async (name: string) => {
-    const response = await postFolder({
+    await postFolder({
       params: { parent_folder_id: currentFolder!.folder.id, name }
-    });
-    if (response) {
-      setCurrentFolder((prev) => {
-        return {
-          ...prev!,
-          children: [
-            ...prev!.children,
-            {
-              ...response.data.folder,
-              type: 'folder'
-            }
-          ]
-        };
+    })
+      .then((response) => {
+        return setCurrentFolder((prev) => {
+          return {
+            ...prev!,
+            children: [
+              ...prev!.children,
+              {
+                ...response.data.folder,
+                type: 'folder'
+              }
+            ]
+          };
+        });
+      })
+      .catch((error: AxiosError<ErrorDto>) => {
+        error.response?.data.message.map((error) =>
+          toast.error(error, {
+            closeButton: true,
+            style: { fontSize: '1rem' }
+          })
+        );
       });
-    }
   };
 
   const handleAddNewFile = async (file: File) => {
