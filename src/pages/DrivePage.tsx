@@ -125,11 +125,11 @@ const DrivePage: React.FC<DrivePageProps> = () => {
     <>
       <div className='flex size-full h-screen flex-col overflow-hidden bg-sky-100'>
         <Header />
-        <div className='flex h-full flex-row justify-between p-4'>
-          <div className='flex w-2/12 items-start justify-center'>
+        <div className='flex h-full flex-col items-center justify-center gap-4 p-4 md:flex-row md:items-start'>
+          <div className='flex w-full items-start justify-center md:w-2/12'>
             <SideBar handleAddNewFolder={handleAddNewFolder} handleAddNewFile={handleAddNewFile} />
           </div>
-          <div className='h-[90%] w-10/12 rounded-3xl bg-white p-4'>
+          <div className='h-[90%] w-full overflow-hidden rounded-3xl bg-white p-2 md:w-10/12'>
             <DriveObserver
               folder={currentFolder}
               handleMoveFolder={handleMoveFolder}

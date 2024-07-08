@@ -91,8 +91,8 @@ export const DriveObserver: React.FC<DriveObserverProps> = ({
   } as ChildFolderDto;
   return (
     <>
-      <div className='text-3xl capitalize'>{folder.folder.name}</div>
-      <div className='grid h-[95%] w-full auto-cols-auto place-items-center gap-4 overflow-y-auto p-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+      <div className='p-1 text-3xl capitalize'>{folder.folder.name}</div>
+      <div className='grid size-full auto-rows-auto place-items-center gap-4 overflow-y-auto p-4 sm:grid-cols-1 md:h-[95%] md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3'>
         <div
           onDrop={(e) => handleDrop(e, backFolder)}
           onDragOver={handleDragOver}
@@ -107,8 +107,13 @@ export const DriveObserver: React.FC<DriveObserverProps> = ({
           />
         </div>
 
-        {folder?.children.map((child) => (
+        {folder?.children.map((child, index) => (
           <div
+            className={
+              index === folder.children.length - 1
+                ? 'mb-20 md:mb-0'
+                : '' /** при одной колонке последний элемент не показывается полностью */
+            }
             key={child.id}
             draggable={child.type === 'folder'}
             onDragStart={(e) => handleDragStart(e, child)}

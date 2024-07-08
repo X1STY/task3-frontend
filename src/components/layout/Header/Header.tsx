@@ -9,12 +9,15 @@ export const Header: React.FC<HeaderProps> = () => {
   return (
     <div className='flex h-16 w-full flex-row items-center justify-between p-4'>
       <div>
-        <button className='text-3xl text-gray-800' onClick={() => navigate('/drive')}>
+        <button
+          className='text-xl text-gray-800 md:text-2xl lg:text-3xl'
+          onClick={() => navigate('/drive')}
+        >
           IPST Drive
         </button>
       </div>
       <div className='flex flex-row items-center justify-center gap-2'>
-        <div className='text-xl text-gray-800'>
+        <div className='text-center text-sm text-gray-800 md:text-xl'>
           Welcome back, {user.name} {user.surname}
         </div>
         <Button

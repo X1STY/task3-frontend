@@ -1,7 +1,7 @@
 import type { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import axios, { AxiosError } from 'axios';
 
-const BASE_URL = 'http://176.109.108.98:8077/';
+const BASE_URL = 'https://iat39.devwonders.com:8077/';
 
 export type AxiosRequestConfig<Params = undefined> = Params extends undefined
   ? { config?: import('axios').AxiosRequestConfig }

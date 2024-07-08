@@ -48,13 +48,15 @@ export const DriveItem: React.FC<DriveItemProps> = ({
         onDoubleClick={() => {
           if (children.type === 'folder') navigate(`/drive?folder_id=${children.id}`);
         }}
-        className='relative flex h-72 w-64 flex-col items-center gap-2 rounded-3xl bg-white p-2 shadow-lg hover:bg-gray-200'
+        className='relative flex h-60 w-48 flex-col items-center gap-2 overflow-hidden rounded-3xl bg-white p-2 shadow-lg hover:bg-gray-200'
       >
         <div>
           {children.type === 'file' && <FileIcon width={200} />}
           {children.type === 'folder' && <FolderIcon width={200} />}
         </div>
-        <h3 className='text-center text-xl'>{children.name}</h3>
+        <h3 className='w-full text-ellipsis text-wrap break-words text-center text-xl'>
+          {children.name}
+        </h3>
         {children.name !== '..' && (
           <Dropdown>
             <DropdownTrigger>
